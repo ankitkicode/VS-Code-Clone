@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Sasta vscode</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel='stylesheet' href='../stylesheets/style.css' />
+  </head>
+  <body>
+    <div class="main">
+     
+     <div class="page1">
+      <div id="overlay" class="overlay">
+        <div class="popup">
+            <form id="formchenge" action="" method="POST">
+              <h2>Rename</h2>
+              <input id="inputfeild" type="text"  name="filename">
+            <input type="submit"  value="Change">
+            </form>
+           
+          
+        </div>
+      </div>
+      
+      <div class="left-part">
+        <div class="top">
+          <i class="ri-file-copy-line"></i>
+          <i class="ri-search-2-line"></i>
+          <i class="ri-git-branch-line"></i>
+          <i class="ri-apps-2-line"></i>
+
+        </div>
+        <div class="bottom">
+          <i class="ri-account-circle-line"></i>
+          <i class="ri-settings-5-line"></i>
+        </div>
+
+      </div>
+      <div class="center-part">
+        <div class="folder">
+          <h3>folder name</h3>
+         <div class="f-icons">
+          <i id="filecreate" class="ri-file-line"></i>
+          <i id="foldercreate" class="ri-folder-add-fill"></i>
+          <a href="/"><i class="ri-restart-line"></i></a>
+          <i class="ri-file-copy-2-fill"></i>
+
+         </div>
+        </div>
+        <div class="form formdiv">
+          <form action="/filecreate">
+            <input type="text" name="filename" placeholder="file name">
+          </form>
+        </div>
+        <div class="form folderdiv">
+          <form action="/foldercreate">
+            <input type="text" name="foldername" placeholder="folder name">
+          </form>
+        </div>
+       
+        <% files.forEach(function(file){ %>
+          <div class="files">
+            <a href="/file/<%= file.name %>">
+              <h4>
+                <% if(file.isDirectory()){%>
+                  <i class="ri-folder-2-line"></i> 
+                <%}else{%>
+                  <i class="ri-file-line"></i>
+                <%}%>
+                <%= file.name %>
+              </h4>
+            </a>
+            <div class="file-icons">
+              <i id="rename" data-val="<%= file.name %>" class="ri-edit-line"></i>
+             
+              <% if(file.isDirectory()){%>
+           <a href="/folder/delete/<%= file.name %>">
+            <i class="ri-delete-bin-line"></i>
+           </a>
+           <%}else{%>
+            <a href="/file/delete/<%= file.name %>">
+              <i class="ri-delete-bin-line"></i>
+             </a>
+            <%}%>
+
+
+            </div>
+          </div>
+       <% }) %>
+
+      </div>
+      <div class="right-part">
+       <div class="cover">
+        <p>write your code here</p>
+       </div>
+      </div>
+     </div>
+    </div>
+    <script>
+
+      var rename= document.querySelectorAll("#rename");
+      var inputshow =document.querySelector("#overlay");
+      var inputfeild=document.querySelector("#inputfeild");
+      var changeform=document.querySelector("#formchenge")
+     
+      rename.forEach(function(elem){
+        elem.addEventListener("click",function(event){
+        inputshow.style.display= "flex";
+        var targetElement = event.target;
+       var dataVal = targetElement.getAttribute("data-val");
+       inputfeild.value=dataVal;
+       changeform.setAttribute("action" ,`/change/${dataVal}`);
+
+       
+
+       
+      });
+      });
+     
+
+     
+    
+
+      var fileicon= document.querySelector("#filecreate");
+      var input= document.querySelector(".formdiv");
+      var foldericon= document.querySelector("#foldercreate");
+      var input2= document.querySelector(".folderdiv");
+
+       var iconstate=0;
+       var iconstate2=0;
+
+       function blankInput(){
+        document.querySelectorAll(".form").forEach(function(elem){
+         elem.style.display="none";
+        });
+       }
+
+       fileicon.addEventListener("click",function(){
+        blankInput();
+        if(iconstate===0){
+          input.style.display="initial";
+          iconstate=1;
+        } else{
+          input.style.display="none";
+          iconstate=0;
+
+        }
+      });
+       foldericon.addEventListener("click",function(){
+        blankInput();
+        if(iconstate2===0){
+          input2.style.display="initial";
+          iconstate2=1;
+        } else{
+          input2.style.display="none";
+          iconstate2=0;
+        }
+      });
+
+     
+     
+    
+    
+       
+       
+
+      
+    
+    </script>
+  </body>
+</html>
